@@ -1,0 +1,613 @@
+AP Computer Science
+----------------------
+
+9/8/14
+Language Types
+
+	Interpreted vs Compiled
+
+		Interpreted language code is turned directly into machine instructions via another program (the interpreter). The interpreter must be used every time. Examples: Python, Netlogo, Racket
+
+		Compiled code must be translated into machine (binary) code via anotheer program (the compiler). The machine code can then be run by a computer. The compulerer only needs to be rurn once. Examples: Java, C, Pascal, C#, Objective-C, C++
+
+	Functional vs Object Oriented
+
+		In a functional language your main programming task is to write functions which are then executed in order. Examples: Racket, Python, Netlogo, C
+
+		In Object Oriented Programming (OOP), your main programming task is to create classes of objects and have objects interact with each other. Examples: Java, C++, Objective-C
+
+9/9/14
+Aim: What should be in our java toolbox?
+
+Do Now: What command line commands would do the following?
+	(assume you are starting at your home directory)
+	1) Move foo.py from Desktop/ to Documents/
+		mv Desktop/foo.py Documents/
+		[note: cp would copy the same way mv moves]
+	2) Remove all .class files
+		rm *.class
+		[note: rm f*.class is a function that removes all files that start with f and end with .class]
+	3) Figure out what javac does
+		[note: man <command> is a function that explains how the function is used, use q to quit]
+		javac is the java compiler
+	4) Connect to homer.stuy.edu from someplace else
+		ssh james.chin@homer.stuy.edu
+		[note: syntax for ssh is ssh <username>@<location>, this is followed by a prompt for a password]
+	5) Copy woohoo.java from your home directory on lisa.stuy.edu to a code/ directory on your own machine
+		scp james.chin@homer.stuy.edu:woohoo.java code/
+		[note: scp stands for secure copy, syntax for scp is scp <username>@<location> <location on local machine>, order can be reversed]
+				
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Computer doodling ftw
+  ________/|_____/|
+ /  [o]           |
+|____,            |
+ \________\|_____ |  
+                 \|
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+9/10/14
+Aim: What should be in our java toolbox?
+
+Programming Tools
+	Text Editor
+		Basic tool for writing code.
+		Programming text editors will have many useful programming features, like syntax highlighting, automatic tabbing, autocompletion, etc.
+	Compiler
+	Interpreter
+	IDE
+		Integrated Development Environment
+		Designed to handle all your programming needs.
+		IDEs will contain a text editor as well as an interpreter/compiler for the language
+		IDEs are language specific
+
+Java Tools
+	javac
+		The Java compiler
+		Basic operation:
+			$ javac <java source>
+			$ javac foo.java
+				Will create foo.class
+	java
+		The Java virtual machine (JVM)
+		TheJVM allows your compiled java code torurnon any computer that has java. This is called being cross-platform.
+		Each platform (computer + hardware + OS) hasa specific JVM
+		The JVM that sits between your compiled java files andyour computer hardware, allowing any java compiled file to run on any computer
+		
+		Basic operation
+			$ java <java binay>
+			$ java foo
+				Will only work if foo.class exists
+
+9/11/14
+Aim: What does a java program look like?
+
+Do Now: Write a simple program that prints a message to the screen in python. If you don't know python, someone near you should, find out who and talk to them.
+	print "hello, world"
+	
+	Terminal commands
+		emacs
+		emacs -nw
+			opens terminal version of emacs
+		emacs <filename> -nw
+			opens file in emacs
+		fg
+			brings emacs back from background to the foreground
+
+	Emacs Commands
+		C stands for CTRL
+		C-x-c		exit ("c" stands for "close")
+		C-x-s		save
+		C-x-w		save as
+		C-x-f		open ("f" stands for "find")
+		C-g			stops an emacs action
+		C-e			go to end of line
+		C-a			go to start of line
+		C-s			search
+		C-k			cut a line ("k" stands for "kill", putting the line in the "kill ring")
+		C-y			paste a line ("y" stands for "yank", yanking it out of the "kill ring")
+		C-z			puts emacs in the background
+		
+	public class Hello {
+		public static void main(String[] args) {
+			System.out.println("hello, world");
+		}
+	}
+	
+9/12/14
+Aim: What does a java program look like?
+
+Do Now: Log in, open a terminal and use emacs to write the simple java program we say at the end of class yesterday. Then try to compile and rurn it!
+
+In case you missed it:
+
+	public class Hello {
+		public static void main(String[] args) {
+			System.out.println("hello, world");
+		}
+	}
+	
+	[note: thingy after "class" must have the same name as the file because of confusing things]
+	
+Java Syntax Basics:
+	Java is case sensitive!
+	
+	The class name must match the file name
+		ex. Hello.java must define a class called Hello
+		
+	Regular statements must end in a ;
+	
+	Code blocks are containted inside {}
+		{ replaces ; at the end of a line that starts a code block
+		
+		} sets the end of the code block
+		
+		Examples of code blocks
+			Method bodies
+			Class bodies
+			Conditional (if, else...) statement results
+			Looping processes
+	Comments
+		// can be used to comment a single line
+			ex.	//This will print to the command line
+				System.out.println("boo"); //scary
+		/* .. */ can be used to comment multiple lines
+			ex.	/*	This is the Hello class,
+					it is designed to greet the 
+					user with a pleasant message. */	
+
+9/16/14 - Minutia
+Aim: What's all this about objects now?
+
+Do Now: Imagine a generic teacher, think about all the properties of a teacher, write them down and break them into 2 categories:
+	1) Things the teacher does
+		teach
+		Ruojia - give students a lot of homework
+		grade and create tests
+		Mike - breathe
+		Helen - teach and communicate
+		Sophia - determine your future
+		Julia - tell great(bad) jokes
+		Roy - randomly mention things from their past
+		Roz - ask questions
+	2) Things the teacher knows
+		Gary - the subject they are teaching
+		Aaron - things about all the students
+		Jeffrey - English
+		Jerry - printer status
+	
+[minutia-note: CJ Dojo opens today]
+[minutia-note: Textbook are available tomorrow and Thursday during the CS Dojo]
+[minutia-note: See DW after 10th if you don't know your password]
+	
+[minutia-note: DW tried to tell us about analog feedback again]
+
+Object Oriented Programming (OOP)	
+
+	An OOP program is a collection of objects
+	
+	The properties of an object are defined in a class
+	
+		A Class is a blueprint for all objects of the same type
+		
+		An object is a specific instance of a class
+		
+		An object has 2 parts
+		
+			1) Instance Variables : Things the object "knows"
+			2) Methods: Things the object "does" [note: this is like a function]
+			
+		Instance Variables are declared at the top of a class, before any methods
+		
+			You must declare any variables before you use it.
+			Variable delcaration includes a name and type.
+			
+9/17/14
+Aim: What are the parts of a java class?
+
+Do Now: Create a new java file that contains the following:
+
+public class Greenter {
+
+	//Instance Variables
+	private String message;
+	
+	//Methods
+	public void setMessage( String m ) {
+		message = m;
+	}
+	
+	public void greet() {
+		System.out.println( message );
+	}
+}
+
+Java Class Anatomy
+
+	Protection
+		Access to classes, variables andmethods is determined by their protection
+		
+		There are three kinds of protection:
+			public
+				Can be used by any java class
+				
+			private
+				Can only be used by the class itself
+				
+			protected
+				Can be used by the class itself and all subclasses
+				
+		Identifiers
+			class, method and variable names are called Identifiers
+			
+			Can only be made of letters (upper and lower case), numbers, _ and $
+			
+			Cannot start with a number
+			
+		Template java class
+			<class header> {
+			
+				<instance variables>
+				
+				<methods>
+			}
+			
+			class header
+				<protection> class <classname>
+				
+				classname
+					By convention, class names start with a capital letter and use camel case
+						ex:	Greeter
+							MyAwesomeClass
+				
+			instance variables
+				<protection> <type> <name>
+				
+				name
+					By convention, variable names start with a lower case letter and use camel case
+						ex:	x
+							myString
+							
+				[note: Continued from 9/17/14 on 9/18/14]
+				
+				type
+					All variables must have an associated type
+					
+					Thetype can either be a primitive datatype (like int) or any java class
+					
+						ex.	x;
+							Greeter g;
+			method header
+				<protection> <return type> <name>(<parameters>)
+				
+				name
+					Like variable names, method names usually start with a lower case letter and use camel case
+				
+				parameters
+					Parameters must be given a type and a name like any other variable
+					
+					Multiple parameters are separated by ,
+					
+					ex: (int x, int y, String s)
+				
+				return type
+					If a method returns a value, you must declare what kind of value is returned
+					
+					If a method does not return a value, then the return type should be void
+					
+				Two or more methods in the same class can have the same name as long as they do not have the same parameters.
+				This is known as OVERLOADING methods
+				
+					public int foo()
+					public int foo(String s)
+						foo() is overloaded correctly
+						
+		main method
+			Each class can (but doesn't have to) contain a method called main
+			
+			main is special, it is the only method that is run automatically
+			
+				$ java Hello
+				will run the main method inside the class Hello
+				
+			The main method must have the following header:
+				public static void main(String[] args)
+				
+			[note: Continued from 9/18/14 on 9/19/14]
+	
+				static is a spcial keyword that modifies how a method works.
+				
+Creating Objects
+	In order to create an object (instance of a class), you must call a special method known as the CONSTRUCTOR
+	
+	By default, all java classes have at least 1 constructor
+	
+	The name of a contructor is always the name of the class itself
+	
+	In order to use the contructor, you must use the keyword "new"
+
+9/18/14
+Aim: What are parts of a java class (part II)?
+
+Do Now: Open up the Greeter class file from yesterday
+
+9/22/14
+Aim: What are the Java primitive data types?
+
+Do Now: List the different types of data you have worked with programming in other languages.
+
+Datatypes
+	Lists
+	Dictionaries
+	Floating points
+	Boolean
+	Integers
+	Strings
+	Character
+
+Using Variables
+	Creating and using a variable takes two steps, declaration and initiation
+	
+Declaring a variable states what kind of type it is
+		ex. 	int x;
+			String s;
+			Greeter g;
+	
+	Initialization gives a variable an initial value
+		ex:	x = -24;
+			s = “Hello”;
+			g = new Greeter();
+
+	Declaration and initialization can be done on a single line
+		ex:	int x = -24;
+			String s = “Hello”;
+			Greeter g = new Greeter();
+Primitive Data Types
+	The only data types that are not classes
+
+	Type		Name		Size(bits)	Range
+	Integers	byte		8		[-128,	127]
+				short		16		[-2^15,	2^15 - 1]	
+				int			32		[-2^31,	2^31 - 1]
+				long		64		[-2^63, 2^63 - 1]
+	
+Floating		float		32		7 digits of precision
+	points		double		64		14 digits of precision
+	
+	Character	char		16
+	Boolean		boolean		?		True or False
+
+9/23/14
+Aim: How do we write our own constructors?
+
+Do Now: What is the smallest variable type that could be used to store the following values
+
+	1) 5				byte
+	2) -30,000			short
+	3) 255				short
+	4) 5,000,000,000	long
+	
+Default Values
+	If a variable is not initialized it is given a default value.
+	
+	All numeric primitives are set to 0
+	
+	Boolean primitives are set to false
+	
+	Characters are set to '' (empty/null character)
+	[note: 'a' is character, "a" is a string]
+	
+	Strings are set to null
+	
+	All object variables are set to null (nothing)
+	
+Constructor
+	Java creates a default constructor for every class
+	
+		The default constructor takes no parameters and will set all instance variables to their default values
+		
+	You can write your own constructors using this header:
+	
+		<protection> <class name>(<parameters>)
+		
+	Constructors can be private or protected, but are most often public
+	
+	public Greeter() {
+		message = "Hello";
+	}
+	
+	public Greeter( String m ) {
+		message = m;
+	}
+	
+9/29/14
+Aim: How do conditional statements work in java?
+
+Do Now: Pick a programming language (not java) and perform the following tasks
+
+  1) Find the product of 4 and 6
+  2) Find the remainder of 105 / 6
+  3) Add 1 to a variable x
+  
+Note on operators in java
+  Arithmetic operators
+    +, -, *, /, %
+   
+      %: mod operator (remainder)
+      
+      Division is dependent on the types used
+      
+        <integer> / <integer> ==> <integer>
+        
+        Integer division truncates the value, no rounding occurs
+        
+        All other combinations will result in a floating point type
+        
+        11 / 2 ==> 5
+        11 / 2.0 ==> 5.5
+        
+        +=, -=, *=, /=, %=
+          Compound assignment operators
+          x+= y <==> x = x + y
+          
+        ++, --
+          Increment/decrement operators
+          The same as adding/subtracting 1 to a variable
+          
+          int x = 4;
+          x++; //x becomes 5
+          
+          x++ means return x and then add 1 to it
+          ++x means add 1 to x and then return it 
+          
+  Comparison operators
+    >,<,>=,<=,==,!=
+      Return boolean values
+      != inequality
+      
+  Boolean operators
+    && and
+    || or
+    ! not
+	
+9/30/14
+Aim: How do conditional statements work in java?
+
+Do Now: Write a sample java program that tests the following:
+
+	String a = new String("hello");
+	String b = new String("hello");
+	
+	System.out.println(a);
+	System.out.println(b);
+	System.out.println(a == b);
+	
+Object comparison:
+	== and != will check to see if two object variables refer to the same piece of memory, not if they have the same "value"
+	
+	Many classes (including String), have an equals method that can check for value equality
+		ex
+			String s = new String("hello");
+			s.equals("hello");
+			
+			You cannot use >, <, >=, <= on object variables
+			
+Conditional Statements
+	if ( <BOOLEAN> ) {
+		<RESULT 1>
+	}
+	else if ( <BOOLEAN> ) {
+		<RESULT 2>
+	}
+	...
+	else {
+		<FINAL RESULT>
+	}
+	
+10/31/14/14
+Aim: How do basic java loops work?
+
+Do Now: Go to this website and explore
+  http://docs.oracle.com/javase/7/docs/api/
+  What have you found?
+  
+while loop
+  
+  Will run as long as a condition is true
+  
+  Syntax:
+    while ( <BOOLEAN> ) {
+      <CODE>
+    }
+    
+  Example:
+    int fact = 1;
+    int n = 1;
+    while ( n <= 5 ) {
+      fact *= n++; //multiplies fact with n, then adds 1 to n
+    }
+  
+for loop
+
+  "Counting loop". Will run as long as a condition is true.
+  
+  Has built in initialization and update code for counter:
+  
+  Syntax:
+    for (<INIT/*initialization*/>; <BOOLEAN>; <UPDATE>) {
+      <CODE>
+    }
+    
+  Example:
+    int fact;
+    for (int i = 1; i <= 5; i++) {
+      fact *= i;
+    }
+    
+  init only happens once before the loop starts repeating
+  
+  the condition is checked at the beginning of each "cycle"
+  
+  update occurs at the end of each cycle
+  
+10/7/14
+Aim: Refining our classes
+
+Do Now: Open up your RationalNumber class
+
+Notes about the rational number class:
+  
+  Passing an object of the same type as a parameter will allow you to access the instance variables and mthods of the parameter directly:
+  
+    public void multiply( Rational other ) {
+      numerator = numerator * other.numerator;
+      denominator = denominator * other.denominator;
+    }
+    
+    The keyword this can be used to represent the object calling the function
+    
+      public void multiply( Rational other ) {
+        this.numerator = this.numerator * other.numerator;
+        this.denominator = this.denominator * other.denominator;
+      }
+      //meow
+      //^that was Julia
+      //*sigh* says James
+      //no comment says James as well
+      //please do not erase
+      //dot dot dot
+      //...
+      
+10/8/14
+Aim: What's up with that static thing anyway?
+
+Do Now:
+  1) Open your Rational Number class (any version is fine)
+  2) Add a method called toString, it should return a string representation of the object.
+  3) In main, create a Rational Number object and print out the object variable directly
+  
+toString
+  Returns a String representation of an object. Java will automatically call toString whenever you use an object variable in a String context.
+  Every class has a toString method (just like a default constructor). The default toString method will return the class name and the memory location of the object.
+  toString should have the following header:
+  
+    public String toString();
+    
+  If you write your own toString, it will replace the one java creates for you
+
+    RationalNumber r = new RationalNumber(8, 34);
+    System.out.println(r); //will call r.toString();
+  
+static
+
+  Static methods are class methods that are not attached to a specific object
+
+  Static methods cannot access instance variables
+  
+  Static methods are run by a class and not by an object
+  
+    Math.sqrt(25); //poke
+    //that was Julia
+    //liesssss
+    //dot dot dot
+    //...
