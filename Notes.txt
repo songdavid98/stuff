@@ -611,3 +611,18 @@ static
     //liesssss
     //dot dot dot
     //...
+    
+10/10/14
+Aim: How to write a Role Playing Game (RPG)
+
+Do Now: What are the different kinds of characters that you might find/play in an RPG?
+
+What do the characters have in common?
+
+Polymorphism
+  Allowing multiple classes to share instance variables and methods
+  
+  Java can have superclasses and subclasses
+  
+    Subclasses can inherit instance variables and methods from superclasses
+    
