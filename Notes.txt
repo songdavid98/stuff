@@ -625,4 +625,38 @@ Polymorphism
   Java can have superclasses and subclasses
   
     Subclasses can inherit instance variables and methods from superclasses
+
+10/14/14
+Aim: How do we extend classes?
+
+Do Now: Create  character class with the following:
+  Instance Variables
+    name
+    health
+    damage
+    experience
+  Methods
+    Default Constructor
+    Constructor that takes name as a parameter
+    Attach (right now just print something out)
+    toString
     
+extends
+  Java keyword used to create a subclasses
+    ex. public class Mage extends Character
+    
+  You cannot extend more than one class
+  
+  There is no limit to the levels of subclasses that can be made
+  //i am james muahahahaha
+  //that was Julia :p
+  
+  Subclasses inherit all instance variables and methods except for constructors (more on that later)
+  
+  private instance variables in a superclass are inherited by subclasses, but cannot be accessed by the subclass.
+  
+  The PROTECTED keyword makes instance variables accessible by a class and its subclasses
+  
+Method inheritance
+
+  Subclasses can create their own version of inherited methods, this is known as overriding a method (think about toString)
