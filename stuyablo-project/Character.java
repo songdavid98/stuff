@@ -9,6 +9,7 @@ public class Character {
    
   String[] inventory;
    
+  //Constructor 
   public Character(String n) {
     name = n;
   }
@@ -23,10 +24,15 @@ public class Character {
     return s;
   }
   
-  public static void main(String[] args) {
-    Character c = new Character("James");
-    
-    System.out.println(c.toString());
+  //Attack Class
+  public void attack(Character c) {
+    int damage = (attack - (defense / 2));
+    if (damage <= 0) {
+      damage = 1;
+    }
+    else {
+      c.health -= damage;
+    }
   }
   
 }
