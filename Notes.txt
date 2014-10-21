@@ -660,3 +660,62 @@ extends
 Method inheritance
 
   Subclasses can create their own version of inherited methods, this is known as overriding a method (think about toString)
+  
+10-15-14
+Aim: How do we get text input?
+
+Text input during your program
+  Scanner
+    Java class to get input from the terminal or files
+    
+    Scanner can = new Scanner(System.in);
+    can.nextLine();
+      This will make your program wait until the user has typed something and hit return
+      Returns what the user entered, as a string.
+      
+    can.nextInt(), nextDouble()... //:3 <3
+      Works like next but returns an int, double...
+      
+      If the user enters the wrong type, an error occurs
+      
+10-16-14
+Aim: How can classes in the same hierarchy interact?
+
+Method inheritance
+  To call a superclass constructor, use super by itself
+    ex. super(); or super("dude"); ...
+  
+  Constructors are not inherited, but java automatically assumes the first line of a constructor is a call to the superclasses default constructor, unless you explicitly call a different superclass constructor
+  
+Object class
+  All classes are subclasses of Object unless they explicitly extend a different class
+  
+  The Object class contains a few basic methods such as:
+    .toString
+    .equals
+    default constructor
+
+Variable type vs. Object type
+
+  Variable type
+    The type declared in your code.
+      String s ==> variable type is String
+      Object o ==> Variable type is Object
+      Mage m ==> Variable type is Mage
+    
+    Variables can only use methods that are defined in their variable type class
+    
+  Object type
+    The type created in memory
+    Tied to which constructor was used to create the object
+    String s ==> new String() ==> Object type is String
+    Object o ==> new Object() ==> Object type is Object
+    Mage m = new Mage() ==> Object type is Mage
+    
+  Variables can refer to any object type that is below the variable type in a class hierarchy
+  
+    Object o ==> o can contain any kind of object
+    Object o = new String();
+      o is an Object variable that refers to a String object
+    Character c = new Mage();
+      c is a Character variable that refers to a Mage object
