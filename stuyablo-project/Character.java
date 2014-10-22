@@ -14,6 +14,10 @@ public class Character {
     name = n;
   }
   
+  public Character() {
+    name = n;
+  }
+  
   public String toString() {
     String s = "";
     s += "Name: " + name + "\n";
