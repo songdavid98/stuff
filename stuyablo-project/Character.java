@@ -15,7 +15,6 @@ public class Character {
   }
   
   public Character() {
-    name = n;
   }
   
   public String toString() {

@@ -5,7 +5,7 @@ public class Civilian extends Character {
     }
 
     public Civilian(String n) {
-	name = "Default";
+	super.name = "Default";
 	health = 10;
 	defense = 10;
 	intelligence = 10;
