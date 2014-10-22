@@ -8,6 +8,14 @@ public class Character {
   int intelligence;
    
   String[] inventory;
+  
+  public Character() {
+    name = "Default";
+    health = 10;
+    attack = 10;
+    defense = 10;
+    intelligence = 10;
+  }
    
   public Character(String n) {
     name = n;
