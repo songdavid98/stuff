@@ -12,9 +12,18 @@ public class Character {
   //Constructor 
   public Character(String n) {
     name = n;
+    health = 10;
+    defense = 10;
+    intelligence = 10;
+    attack = 10;
   }
   
   public Character() {
+    name = "Default";
+    health = 10;
+    defense = 10;
+    intelligence = 10;
+    attack = 10;
   }
   
   public String toString() {
@@ -28,14 +37,12 @@ public class Character {
   }
   
   //Attack Class
-  public void attack(Character c) {
+ public void attack(Character c) {
     int damage = (attack - (defense / 2));
     if (damage <= 0) {
       damage = 1;
     }
-    else {
-      c.health -= damage;
-    }
+    c.health -= damage;
   }
   
 }
