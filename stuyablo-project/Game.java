@@ -3,8 +3,12 @@ import java.util.*;
 public class Game {
 
   int day;
+  String location;
   
   public static void main(String[] args) {
+  
+    String checkpoint = "beach";
+    int shelter;
   
     Scanner s = new Scanner(System.in);
     String t;
@@ -28,7 +32,44 @@ public class Game {
     System.out.print("What is your name? \n");
     t = s.nextLine();
     Character c = new Character(t);
-  
+    System.out.println("");
+    System.out.println("These are your stats:");
+    System.out.println(c.toString());
+    while (checkpoint == "beach") {
+    System.out.println("");
+      System.out.println("You're on the beach. Where would you like to go?");
+      System.out.println("Options: \n (1) To Ocean \n (2) To Forest");
+      t = s.nextLine();
+      if (t.equals("1")) {
+        checkpoint = "ocean";
+      }
+      else if (t.equals("2")) {
+        checkpoint = "forest_entrance";
+      }
+      else {
+        System.out.println("That is not a valid choice");
+      }
+    }
+    while (checkpoint == "ocean") {
+      Random r = new Random();
+      int x = r.nextInt(3);
+      if (x == 0) {
+        System.out.println("Storm coming");
+        t = s.nextLine();
+      }
+      else if (x == 1) {
+        System.out.println("Shark attack!");
+        t = s.nextLine();
+      }
+      else {
+        System.out.println("Normal ocean, can go fishing if fishing pole is in inventory");
+        t = s.nextLine();
+      }
+    }
+    while (checkpoint == "forest_entrance") {
+      System.out.println("You are now at the opening of a huge forest.");
+      checkpoint = "beach";
+    }
   }  
 
 }
