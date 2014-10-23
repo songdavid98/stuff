@@ -3,6 +3,8 @@ import java.util.*;
 public class Game {
 
   int day;
+  boolean win = false;
+  boolean dead = false;
   
   public static void main(String[] args) {
   
