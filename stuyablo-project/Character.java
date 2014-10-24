@@ -4,6 +4,7 @@ public class Character {
 
   //variables
   String name;
+  int maxHealth;
   int health;
   int attack;
   int defense;
@@ -14,21 +15,27 @@ public class Character {
   //Constructors
   public Character(String n) {
     name = n;
+    maxHealth = 10;
     health = 10;
     defense = 10;
     intelligence = 10;
     attack = 10;
-    inventory.add("food");
+    for (int i = 0; i < 5; i++) {
+      inventory.add("food");
+    }
     inventory.add("rock");
   }
   
   public Character() {
     name = "Default";
+    maxHealth = 10;
     health = 10;
     defense = 10;
     intelligence = 10;
     attack = 10;
-    inventory.add("food");
+    for (int i = 0; i < 5; i++) {
+      inventory.add("food");
+    }
     inventory.add("rock");
   }
   
@@ -39,7 +46,7 @@ public class Character {
     s += "Health: " + health + "\n";
     s += "Intelligence: " + intelligence + "\n";
     s += "Attack: " + attack + "\n";
-    s += "Defense: " + defense;
+    s += "Defense: " + defense + "\n";
     s += "Inventory: " + inventory + "\n";
     return s;
   }
@@ -52,5 +59,5 @@ public class Character {
     }
     c.health -= damage;
   }
-  
+
 }
