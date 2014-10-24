@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Character {
 
   //variables
@@ -7,7 +9,7 @@ public class Character {
   int defense;
   int intelligence;
    
-  String[] inventory;
+  ArrayList<String> inventory = new ArrayList<String>();
    
   //Constructors
   public Character(String n) {
@@ -16,6 +18,8 @@ public class Character {
     defense = 10;
     intelligence = 10;
     attack = 10;
+    inventory.add("food");
+    inventory.add("rock");
   }
   
   public Character() {
@@ -24,6 +28,8 @@ public class Character {
     defense = 10;
     intelligence = 10;
     attack = 10;
+    inventory.add("food");
+    inventory.add("rock");
   }
   
   //Methods
@@ -34,6 +40,7 @@ public class Character {
     s += "Intelligence: " + intelligence + "\n";
     s += "Attack: " + attack + "\n";
     s += "Defense: " + defense;
+    s += "Inventory: " + inventory + "\n";
     return s;
   }
   
