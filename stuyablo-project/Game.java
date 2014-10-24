@@ -8,7 +8,7 @@ public class Game {
   public static void main(String[] args) {
   
     String checkpoint = "beach";
-    int shelter;
+    boolean shelter = false; //true if you need shelter
   
     Scanner s = new Scanner(System.in);
     String t;
@@ -52,13 +52,14 @@ public class Game {
     }
     while (checkpoint == "ocean") {
       Random r = new Random();
-      int x = r.nextInt(3);
-      if (x == 0) {
+      int x = r.nextInt(100);
+      if (x < 10) {
         System.out.println("Storm coming");
         t = s.nextLine();
       }
-      else if (x == 1) {
-        System.out.println("Shark attack!");
+      else if (x < 30) {
+        System.out.println("You've been attacked!");
+        //attack function
         t = s.nextLine();
       }
       else {
