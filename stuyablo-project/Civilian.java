@@ -17,5 +17,4 @@ public class Civilian extends Character {
       System.out.println("Civilian");
       return super.toString();
     }
-
 }

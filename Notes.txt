@@ -719,3 +719,42 @@ Variable type vs. Object type
       o is an Object variable that refers to a String object
     Character c = new Mage();
       c is a Character variable that refers to a Mage object
+      
+10/20/14
+
+Stuyablo
+  2 different playable character types
+  2 different enemy character types
+  1 Game driver class
+    enter name
+    select character type
+    begin game interaction
+    
+10/23/14
+Aim: How can we get random numbers in java?
+
+Random - java.util.*
+
+  Java class designed for generating random numbers
+  
+  Methods
+  
+    .nextDouble()
+      Returns a random floating point number in the range 0 <= n < 10-15-14
+      
+    .nextInt()
+      Returns a random integer in the range:
+      -2^31 <= n < 2^31
+    
+    .nextInt( int bound )
+      Returns a random integer in the range 0 <= n < bound
+      
+10/24/14
+REVIEW
+
+Var type vs Object type
+1) Variable can refer to any object below its type in a class hierarchy
+2) Variable type determines which methods you can use
+3) Object type determines how a method works
+**********************************************************************
+^that was julia

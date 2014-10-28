@@ -9,6 +9,130 @@ public class Game {
   String cause;
   boolean acted;//once the player has acted, the day will pass
   
+  public static void battle(Character c, Game g) { 
+    boolean over = false;
+    Random rand = new Random();
+    Scanner sk = new Scanner(System.in);
+    Character e = new Character();	//this is our enemy
+
+    if ( g.location == "beach") {
+      e = new Shark();
+    }
+    else if (g.location == "town"){
+      if (rand.nextInt(2) == 0) {
+        e = new Bum();
+      }
+      else {
+        e = new Survivor();
+      }
+    }
+
+    else {
+      int x = rand.nextInt(3);
+      if (x == 0) {
+        e = new Bear();
+      }
+      else if (x == 1) {
+        e = new Rat();
+      }
+      else {
+        e = new Snake();
+      }
+
+    }
+
+    while (!over) {
+      System.out.println("You have been attacked! What do you do: ");
+      System.out.println("1. Attack");
+      System.out.println("2. Use an item?"); //i created rocks as an inventory item for this
+      System.out.println("3. Try to run"); // give this a 50% chance of succeeding
+      String sel = sk.nextLine();
+      switch (sel) {
+        case "1":
+          c.attack(e); //have the character attack method print some lines
+          break;
+        case "2":
+          if (c.inventory.contains("rock")) { //make this instantly win the fight
+            System.out.println("In panic, you found a rock, threw it,");
+            System.out.println("and killed the enemy!");
+            e.health = 0;
+            break;
+          }
+          else if (c.inventory.contains("sword")) {
+            System.out.println("You swing your sword");
+            c.attack *= 2;
+            c.attack(e);
+            c.attack /= 2;
+          }
+          else {
+            System.out.println("You waste time looking");
+          }
+        case "3":
+          if (rand.nextInt(2) == 0) {
+            System.out.println("You ran away. Coward");
+            over = true;
+            break;
+          }
+          else {
+            System.out.println("The enemy caught up with you");
+            break;
+          }
+        default:
+          System.out.println("");
+          break;
+        }
+      
+      e.attack(c);
+
+      if (e.health < 1) {
+        over = true;
+      }
+    }
+
+
+  }
+
+  public static boolean build(Character c) {
+    boolean built = false;
+    Scanner sn = new Scanner(System.in);
+    String choice = "";
+    if (c.inventory.contains("tools") && c.inventory.contains("planks") && c.inventory.contains("cloth")) {
+      System.out.println("Do you want to build a boat?");
+      System.out.println("1. for yes");
+      System.out.println("2. for no");
+      choice = sn.nextLine();
+      if (choice == "1") {
+        c.inventory.add("boat");
+        c.inventory.remove("planks");
+        c.inventory.remove("cloth");
+      }
+    }
+    else if (c.inventory.contains("hide")) {
+      System.out.println("Do you want to create cloth from animal hide?");
+      System.out.println("1. for yes");
+      System.out.println("2. for no");
+      choice = sn.nextLine();
+      if (choice == "1") {
+        c.inventory.add("cloth");
+        c.inventory.remove("hide");
+      }
+    }
+    else if (c.inventory.contains("wood") && c.inventory.contains("iron")) {
+      System.out.println("What do you want to build?");
+      System.out.println("1. Tools");
+      System.out.println("2. Sword");
+      System.out.println("3. Planks");
+      System.out.println("4. Finished?");
+      c.inventory.remove("wood");
+      c.inventory.remove("iron");
+    }
+    else {
+      System.out.println("You do not have the materials needed.");
+      built = false;
+    }
+    return built;
+  }
+  
   public Game() {
     day = 0;
     win = false;
@@ -23,15 +147,11 @@ public class Game {
       day += 1;
   }
   
-  public static void creation() {
-    
-  }
-  
   public void menu() {
     System.out.println("You are currently at: " + location);
     System.out.println("You can choose the following: ");
     System.out.println("1. Look at inventory and stats");
-    System.out.println("2. You can look for food and supples");
+    System.out.println("2. You can look for food and supplies");
     System.out.println("3. Travel");
     System.out.println("4. Build something");
     System.out.println("5. Just quit: as in just die");
@@ -70,8 +190,7 @@ public class Game {
         c = new Jock(trk);
         break;
       default:
-        System.out.println("Not a valid choice");
-        creation();
+        System.out.println("Not a valid choice");//check for input validation
         break;
     }
     
@@ -85,6 +204,9 @@ public class Game {
     
     while (!g.dead && !g.win) {
       g.dayPassed();
+      battle(c, g);
+      System.out.println("You obtained animal hide!");
+      c.inventory.add("hide");
       
       Scanner scan = new Scanner(System.in);
       
@@ -159,8 +281,9 @@ public class Game {
             break;
             
           case "4"://build
-            System.out.println("What do you want to build?");
-            g.acted = true;
+            if (build(c)) {
+              g.acted = true;
+            }
             break;
             
           case "5":

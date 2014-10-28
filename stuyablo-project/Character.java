@@ -58,6 +58,7 @@ public class Character {
       damage = 1;
     }
     c.health -= damage;
+    System.out.println(name + " did " + damage + " damage to " + c.name);
+    System.out.println(c.name + " now has " + c.health + " health");
   }
-
 }
