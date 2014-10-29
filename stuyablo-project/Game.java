@@ -9,6 +9,17 @@ public class Game {
   String cause;
   boolean acted;//once the player has acted, the day will pass
   
+  public int countItems(ArrayList<String> list, String item, int amount) {
+    int count = 0;
+    for (int i = 0; i < list.size(); i++) {
+      if (item.equals(list.get(i))) {
+        count++;
+      }
+    }
+    return count;
+    
+  }
+  
   public static void battle(Character c, Game g) { 
     boolean over = false;
     Random rand = new Random();
@@ -81,10 +92,15 @@ public class Game {
           System.out.println("");
           break;
         }
+      if (e.health < 1) {
+        over = true;
+      }
       
       e.attack(c);
-
-      if (e.health < 1) {
+      
+      if (c.health < 1) {
+        g.cause += "You were killed in action!";
+        g.dead = true;
         over = true;
       }
     }
