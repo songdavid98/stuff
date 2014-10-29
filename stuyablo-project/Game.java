@@ -1,7 +1,8 @@
 import java.util.*;
 
 public class Game {
-
+  
+  String kill;
   boolean win;
   boolean dead;
   int day;
@@ -9,7 +10,18 @@ public class Game {
   String cause;
   boolean acted;//once the player has acted, the day will pass
   
-  public static void battle(Character c, Game g) { 
+  public int countItems(ArrayList<String> list, String item) {
+    int count = 0;
+    for (int i = 0; i < list.size(); i++) {
+      if (item.equals(list.get(i))) {
+        count++;
+      }
+    }
+    return count;
+    
+  }
+  
+  public static void battle(Character c, Game g) {
     boolean over = false;
     Random rand = new Random();
     Scanner sk = new Scanner(System.in);
@@ -42,98 +54,190 @@ public class Game {
     }
 
     while (!over) {
-      System.out.println("You have been attacked! What do you do: ");
-      System.out.println("1. Attack");
-      System.out.println("2. Use an item?"); //i created rocks as an inventory item for this
-      System.out.println("3. Try to run"); // give this a 50% chance of succeeding
-      String sel = sk.nextLine();
-      switch (sel) {
-        case "1":
-          c.attack(e); //have the character attack method print some lines
-          break;
-        case "2":
-          if (c.inventory.contains("rock")) { //make this instantly win the fight
-            System.out.println("In panic, you found a rock, threw it,");
-            System.out.println("and killed the enemy!");
-            e.health = 0;
+      boolean done = false;
+      while (!done) {
+        System.out.println("You have been attacked! What do you do: ");
+        System.out.println("1. Attack");
+        System.out.println("2. Use an item?"); //i created rocks as an inventory item for this
+        System.out.println("3. Try to run"); // give this a 50% chance of succeeding
+        System.out.println("4. Commit suicide?");
+        String sel = sk.nextLine();
+        switch (sel) {
+          case "1":
+            c.attack(e); //have the character attack method print some lines
+            done = true;
             break;
-          }
-          else if (c.inventory.contains("sword")) {
-            System.out.println("You swing your sword");
-            c.attack *= 2;
-            c.attack(e);
-            c.attack /= 2;
-          }
-          else {
-            System.out.println("You waste time looking");
-          }
-        case "3":
-          if (rand.nextInt(2) == 0) {
-            System.out.println("You ran away. Coward");
-            over = true;
+          case "2":
+            if (c.inventory.contains("rock")) { //make this instantly win the fight
+              System.out.println("In panic, you found a rock, threw it,");
+              System.out.println("and killed the enemy!");
+              e.health = 0;
+              done = true;
+              break;
+            }
+            else if (c.inventory.contains("sword")) {
+              System.out.println("You swing your sword");
+              c.attack *= 2;
+              c.attack(e);
+              c.attack /= 2;
+              done = true;
+            }
+            else {
+              System.out.println("You waste time looking");
+              done = true;
+            }
+          case "3":
+            if (rand.nextInt(2) == 0) {
+              System.out.println("You ran away. Coward");
+              done = true;
+              over = true;
+              break;
+            }
+            else {
+              System.out.println("The enemy caught up with you");
+              done = true;
+              break;
+            }
+          default:
+            System.out.println("Invalid input\n\n");
             break;
-          }
-          else {
-            System.out.println("The enemy caught up with you");
-            break;
-          }
-        default:
-          System.out.println("");
-          break;
         }
+      }
       
-      e.attack(c);
-
       if (e.health < 1) {
         over = true;
       }
+      
+      e.attack(c);
+      
+      if (c.health < 1) {
+        g.cause += "You were killed in action!";
+        g.dead = true;
+        over = true;
+      }
     }
-
-
+    //after the battle
+    g.kill = e.name;
+    if ((g.kill == "bum") || (g.kill == "survivor")) {
+      System.out.println("You obtained iron")
+      c.inventory.add("iron");
+    }
+    else {
+      System.out.println("You obtained animal hide");
+      c.inventory.add("hide");
+    }
+    System.out.println("You obtained food!");
+    c.inventory.add("food");
   }
 
-  public static boolean build(Character c) {
+  public static boolean build(Character c, Game g) {
     boolean built = false;
     Scanner sn = new Scanner(System.in);
     String choice = "";
-    if (c.inventory.contains("tools") && c.inventory.contains("planks") && c.inventory.contains("cloth")) {
+    if (c.inventory.contains("tools") && c.inventory.contains("motor") &&  (10 <= g.countItems(c.inventory, "plank")) && (10 <= g.countItems(c.inventory, "cloth"))) {
       System.out.println("Do you want to build a boat?");
       System.out.println("1. for yes");
-      System.out.println("2. for no");
+      System.out.println("Anything else for no");
       choice = sn.nextLine();
       if (choice == "1") {
         c.inventory.add("boat");
-        c.inventory.remove("planks");
-        c.inventory.remove("cloth");
+        System.out.println("You have a boat. Go use it.");
+        for (int i = 0; i < 10; i++) {
+          c.inventory.remove("plank");
+          c.inventory.remove("cloth");
+          built = true;
+        }
       }
     }
-    else if (c.inventory.contains("hide")) {
+    if (c.inventory.contains("hide")) {
       System.out.println("Do you want to create cloth from animal hide?");
       System.out.println("1. for yes");
-      System.out.println("2. for no");
+      System.out.println("Anything else for no");
       choice = sn.nextLine();
       if (choice == "1") {
         c.inventory.add("cloth");
         c.inventory.remove("hide");
+        built = true;
       }
     }
-    else if (c.inventory.contains("wood") && c.inventory.contains("iron")) {
-      System.out.println("What do you want to build?");
-      System.out.println("1. Tools");
-      System.out.println("2. Sword");
-      System.out.println("3. Planks");
-      System.out.println("4. Finished?");
-      c.inventory.remove("wood");
-      c.inventory.remove("iron");
+    boolean finito = false;
+    while (!finito) {
+      if (c.inventory.contains("wood") || c.inventory.contains("iron")) {
+        System.out.println("What do you want to build?");
+        System.out.println("1. Tools (build this first)");
+        System.out.println("2. Sword");
+        System.out.println("3. Planks");
+        System.out.println("4. Motor");
+        System.out.println("5. Finished?");
+        choice = sn.nextLine();
+        switch (choice) {
+          case "1":
+            if (c.inventory.contains("wood") && c.inventory.contains("iron")) {
+              c.inventory.add("tools");
+              c.inventory.remove("wood");
+              c.inventory.remove("iron");
+              finito = true;
+            }
+            else {
+              System.out.println("Not enough materials");
+            }
+            break;
+          case "2":
+            if (c.inventory.contains("wood") && c.inventory.contains("tools") && (2 <= g.countItems(c.inventory, "iron"))) {
+              c.inventory.add("sword");
+              c.inventory.remove("wood");
+              for (int i = 0; i < 2; i++) {
+                c.inventory.remove("iron");
+              }
+              finito = true;
+            }
+            else {
+              System.out.println("Not enough materials");
+            }
+            break;
+          case "3":
+            if (c.inventory.contains("tools") && (3 <= g.countItems(c.inventory, "wood"))) {
+              c.inventory.add("plank");
+              for (int i = 0; i < 3; i++) {
+                c.inventory.remove("wood");
+              }
+              finito = true;
+            }
+            else {
+              System.out.println("Not enough materials");
+            }
+            break;
+          case "4":
+            if (c.inventory.contains("tools") && (10 <= g.countItems(c.inventory, "iron"))) {
+              c.inventory.add("motor");
+              for (int i = 0; i < 10; i++) {
+                c.inventory.remove("iron");
+              }
+              finito = true;
+            }
+            else {
+              System.out.println("Not enough materials");
+            }
+            break;
+          case "5":
+            System.out.println("Exited");
+            finito = true;
+            break;
+          default:
+            System.out.println("Invalid input");
+            break;
+        }
+      }
     }
-    else {
+    
+    if (built == false) {
       System.out.println("You do not have the materials needed.");
-      built = false;
     }
     return built;
   }
   
   public Game() {
+    kill = "";
     day = 0;
     win = false;
     dead = false;
@@ -154,7 +258,8 @@ public class Game {
     System.out.println("2. You can look for food and supplies");
     System.out.println("3. Travel");
     System.out.println("4. Build something");
-    System.out.println("5. Just quit: as in just die");
+    System.out.println("5. Rest for a day");
+    System.out.println("6. Just quit: as in just die");
   }
   
   public static void main(String[] args) {
@@ -171,49 +276,60 @@ public class Game {
     System.out.println("And a huge forest on the other.");
     System.out.println("");
     
-    System.out.print("What is your name? \n");
-    trk = scanner.nextLine();
-    System.out.println("Occupation?");
-    System.out.println("1. Civilian");
-    System.out.println("2. Engineer");
-    System.out.println("3. Jock");
-    selection = scanner.nextLine();
-    Character c = new Character();
-    switch(selection) {
-      case "1":
-        c =  new Civilian(trk);
-        break;
-      case "2":
-        c = new Engineer(trk);
-        break;
-      case "3":
-        c = new Jock(trk);
-        break;
-      default:
-        System.out.println("Not a valid choice");//check for input validation
-        break;
+    boolean chosen = false;
+    while (!chosen) {
+      System.out.print("What is your name? \n");
+      trk = scanner.nextLine();
+      System.out.println("Occupation?");
+      System.out.println("1. Civilian");
+      System.out.println("2. Engineer");
+      System.out.println("3. Jock");
+      selection = scanner.nextLine();
+      Character c = new Character();
+      switch(selection) {
+        case "1":
+          c =  new Civilian(trk);
+          chosen = true;
+          break;
+        case "2":
+          c = new Engineer(trk);
+          chosen = true;
+          break;
+        case "3":
+          c = new Jock(trk);
+          chosen = true;
+          break;
+        default:
+          System.out.println("Not a valid choice\n\n");
+          break;
+      }
     }
-    
     
     System.out.println("You are alone on an island. Or are you?");
     System.out.println("Your mission is to survive, and hopefully, escape this isolated world.");
     System.out.println("You have five days worth of food, and a backpack (inventory).");
     System.out.println("Good luck!");
     System.out.println();
-    ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////GAME START
     
     while (!g.dead && !g.win) {
       g.dayPassed();
       battle(c, g);
-      System.out.println("You obtained animal hide!");
-      c.inventory.add("hide");
       
       Scanner scan = new Scanner(System.in);
-      
       while (!g.acted) {
+        if (location == "beach" && c.inventory.contains("boat")) {
+          System.out.println("Do you want to sail away?");
+          System.out.prinlln("1. to sail away\nAnything else to stay");
+          String decision = scan.nextLine();
+          if (decision == "1") {
+            g.win = true;
+            g.cause = "You sailed away into the deep blue\nTo be continued...";
+            g.acted = true;
+          }
+        }
         g.menu();
         selection = scan.nextLine();
-        
         switch (selection) {
           case "1":
             System.out.println("\n\n");
@@ -231,7 +347,10 @@ public class Game {
             System.out.println("You have thoroughly searched the area");
             System.out.println("Added to inventory: ");
             int event = r.nextInt(100);
-            if (event > 50) {
+            if (event <= 70) {
+              System.out.println("You didn't find anything");
+            }
+            else if (event > 70) {
               for (int i = -1; i < r.nextInt(2); i++) {
                   c.inventory.add("food");
                   System.out.println("food");
@@ -286,7 +405,15 @@ public class Game {
             }
             break;
             
-          case "5":
+          case "5"://rest
+            if (c.health < c.maxHealth) {//regain health
+              c.health += 3;
+            }
+            System.out.println("You have rested");
+            g.acted = true;
+            break;
+          
+          case "6":
             g.cause += "You have quit. Loser";
             g.dead = true;
             g.acted = true;
@@ -302,6 +429,7 @@ public class Game {
             break;
         }
       }
+      ///////////////////////end of day, after acted
       if (!g.dead) {
         System.out.println("The day is ending");
         System.out.println("You are starting to get hungry");
@@ -324,7 +452,7 @@ public class Game {
       }
       
       g.acted = false;//very important
-    }    
+    }
     System.out.println(g.cause);
   }
 }
